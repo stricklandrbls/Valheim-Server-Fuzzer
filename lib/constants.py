@@ -1,0 +1,1 @@
+STRUCT_ECHO = "B" * 4
