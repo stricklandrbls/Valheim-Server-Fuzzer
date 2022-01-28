@@ -1,6 +1,7 @@
 import socket
-import struct
+import lib.constants as c
 from lib.packet import Packet
+
 
 def run():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -10,17 +11,17 @@ def run():
     try:
         package = packet.get_ping_package()
         s.sendto(package, target)
-        response = s.recvfrom(2048)
+        response = s.recvfrom(c.LPACKET_SIZE)
         history.append(response[0])
 
         package = packet.get_echo_package(response[0])
         s.sendto(package, target)
-        response = s.recvfrom(2048)
+        response = s.recvfrom(c.LPACKET_SIZE)
         history.append(response[0])
 
         package = packet.get_test_packet()
         s.sendto(package, target)
-        response = s.recvfrom(2048)
+        response = s.recvfrom(c.LPACKET_SIZE)
         history.append(response[0])
 
     except KeyboardInterrupt:
