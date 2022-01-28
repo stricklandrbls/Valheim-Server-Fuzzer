@@ -6,7 +6,7 @@ from lib.packet import Packet
 def run():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     packet = Packet()
-    target = [('45.24.126.6', 2457), ('45.24.126.6', 2456)]
+    target = [('71.136.241.218', 2457), ('71.136.241.218', 2456)]
     history = []
     try:
         package = packet.get_ping_package()
@@ -25,7 +25,9 @@ def run():
         response = s.recvfrom(c.LPACKET_SIZE)
 
         history.append(response[0])
-
+        
+        for msg in history:
+            print(msg)
     except KeyboardInterrupt:
         for item in history:
             print(f"\n{item}")
