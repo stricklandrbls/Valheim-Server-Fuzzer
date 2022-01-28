@@ -39,12 +39,25 @@ class Packet():
         self.bytes_msg = bytes(self.package)
         return self.bytes_msg
 
-    def build_test_package(self):
-        self.package = [0x20, 0x10, 0x00, 0x0d, 0x9e, 0x70, 0xe0, 0x15, 0x19, 0x24, 0x66, 0x1c, 0x82, 0xba, 0x02, 0x00, 0x00, 0x20, 0x0b]
+    def build_connect_package(self):
+        self.package = [0x20, 0x10, 0x00, 0x0d, 0x9e, 0x70, 0xe0, 0x15, 0x19, 0x24, 0x66, 0x1c, 0x82, 0xba, 0x02]
         while len(self.package) < 512:
             self.package.append(0x0)
 
-    def get_test_packet(self):
-        self.build_test_package()
+    def get_connect_packet(self):
+        self.build_connect_package()
         self.bytes_msg = bytes(self.package)
         return self.bytes_msg
+
+    def print(packet):
+        char_len = len(packet)
+        unpack_string = 'B' * char_len
+        contents = struct.unpack(unpack_string, packet)
+        
+        _hex = []
+        ascii = []
+        for char in contents:
+            ascii.append(chr(char))
+            _hex.append(hex(char))
+        print(str(ascii))
+        print(str(_hex))
