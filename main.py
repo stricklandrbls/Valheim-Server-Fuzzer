@@ -1,13 +1,17 @@
 import socket
 import lib.constants as c
 from lib.packet import Packet
+from lib.History import History
 
 
 def run():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    
     packet = Packet()
+    history = History()
+    
     target = [('71.136.241.218', 2457), ('71.136.241.218', 2456)]
-    history = []
+    
     try:
         package = packet.get_ping_package()
         s.sendto(package, target[0])
