@@ -23,10 +23,11 @@ class Packet():
         
         _hex = []
         ascii = []
+        
         for char in self.package:
             ascii.append(chr(char))
             _hex.append(hex(char))
-        return(str(ascii))
+        return str(ascii)
 
     def get_ping_package(self):
         self.build_ping_package()
