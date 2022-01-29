@@ -16,24 +16,23 @@ def run():
         package = packet.get_ping_package()
         s.sendto(package, target[0])
         response = s.recvfrom(c.LPACKET_SIZE)
-        history.append(response[0])
+        history.append(Packet(response[0]))
 
         package = packet.get_echo_package(response[0])
         s.sendto(package, target[0])
         response = s.recvfrom(c.LPACKET_SIZE)
-        history.append(response[0])
+        history.append(Packet(response[0]))
 
         package = packet.get_connect_packet()
-        Packet.print(package)
         s.sendto(package, target[1])
         response = s.recvfrom(c.LPACKET_SIZE)
-
-        history.append(response[0])
+        history.append(Packet(response[0]))
         
-        for msg in history:
+        for msg in history.list:
             print(msg)
+
     except KeyboardInterrupt:
-        for item in history:
+        for item in history.list:
             print(f"\n{item}")
         print("\nDone")
 

@@ -3,9 +3,30 @@ from typing import List
 import lib.constants as c
 
 class Packet():
-    def __init__(self):
+    def __init__(self, packet=[]):
         self.bytes_msg = []
         self.package = []
+        self.length = len(self.bytes_msg)
+        self.bytes_format = ""
+        
+        if type(packet) == bytes:
+            self.bytes_msg = packet
+            self.length = len(self.bytes_msg)
+            self.bytes_format = "B" * self.length
+            self.package = struct.unpack(self.bytes_format, self.bytes_msg)
+        elif type(packet) == Packet:
+            self.bytes_msg = bytes(packet)
+            self.length = len(self.bytes_msg)
+            self.bytes_format = "B" * self.length
+
+    def __str__(self):
+        
+        _hex = []
+        ascii = []
+        for char in self.package:
+            ascii.append(chr(char))
+            _hex.append(hex(char))
+        return(str(ascii))
 
     def get_ping_package(self):
         self.build_ping_package()
@@ -49,15 +70,3 @@ class Packet():
         self.bytes_msg = bytes(self.package)
         return self.bytes_msg
 
-    def print(packet):
-        char_len = len(packet)
-        unpack_string = 'B' * char_len
-        contents = struct.unpack(unpack_string, packet)
-        
-        _hex = []
-        ascii = []
-        for char in contents:
-            ascii.append(chr(char))
-            _hex.append(hex(char))
-        print(str(ascii))
-        print(str(_hex))
