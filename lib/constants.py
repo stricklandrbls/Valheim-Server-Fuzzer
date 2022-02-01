@@ -1,3 +1,6 @@
 STRUCT_ECHO = "B" * 4
 
 LPACKET_SIZE = 2048
+
+PING_HEADER = [255,255,255,255]
+PING_TEXT   = "TSource Engine Query"

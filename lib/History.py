@@ -16,4 +16,15 @@ class History:
             self.list.append(data)
             self.data_type = type(data)
         
-
+    def print_last(self):
+        print(self.list[-1])
+    def print_first(self):
+        print(self.list[0])
+    def print_(self, index):
+        try:
+            print(self.list[index])
+        except IndexError:
+            print("INDEX ERROR")
+    def print_all(self):
+        for msg in self.list:
+            print(msg)
