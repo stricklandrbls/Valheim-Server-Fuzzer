@@ -22,14 +22,16 @@ class Packet():
     def __str__(self):
         
         _hex = []
-        ascii = []
+        ascii = ""
         output = ""
         for char in self.package:
-            ascii.append(chr(char))
+            output += chr(char)
+            output += "  "
+        output += "\n"
+        for char in self.package:
             _hex.append(hex(char))
         ascii = str(ascii).replace("\\x", "")
-        output = ascii + "\n" + str(_hex).replace("\\x", "")
-        return str(output)
+        return output
 
     def get_ping_package(self):
         self.build_ping_package()
