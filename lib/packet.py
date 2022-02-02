@@ -1,3 +1,4 @@
+from email.errors import BoundaryError
 import struct
 from typing import List
 import lib.constants as c
@@ -22,15 +23,34 @@ class Packet():
     def __str__(self):
         
         _hex = []
-        ascii = ""
+        ascii = []
         output = ""
         for char in self.package:
-            output += chr(char)
-            output += "  "
-        output += "\n"
+            ascii.append(chr(char))
+
         for char in self.package:
-            _hex.append(hex(char))
-        ascii = str(ascii).replace("\\x", "")
+            value = hex(char)[2:]
+            if len(value) == 1:
+                _hex.append("0" + value)
+            else:
+                _hex.append(value)
+
+
+        index = 0
+        hex_index = 0
+        for char in ascii:
+            output += char + " "
+            index += 1
+            if index == 5:
+                output += "\t"
+                for i in range(hex_index, hex_index + 5):
+                    try:
+                        output += _hex[i] + " "
+                    except BoundaryError:
+                        pass
+                output += "\n"
+                hex_index += 5
+                index = 0
         return output
 
     def get_ping_package(self):
