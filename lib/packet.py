@@ -26,7 +26,10 @@ class Packet():
         ascii = []
         output = ""
         for char in self.package:
-            ascii.append(chr(char))
+            if char > 17:
+                ascii.append(chr(char))
+            else:
+                ascii.append(".")
 
         for char in self.package:
             value = hex(char)[2:]
@@ -34,12 +37,17 @@ class Packet():
                 _hex.append("0" + value)
             else:
                 _hex.append(value)
+            
 
 
         index = 0
         hex_index = 0
         for char in ascii:
-            output += char + " "
+            # if len(str(char)) > 2:
+            #     output += char[3] + ' '
+            # else:
+            output += str(char) + " "
+
             index += 1
             if index == 5:
                 output += "\t"
