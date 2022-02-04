@@ -8,8 +8,8 @@ class Socket():
         self.destination = [(target, self.ports[0]), (target, self.ports[1])]
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         
-    def send(self, data):
-        self.socket.sendto(data, self.destination[0])
+    def send(self, data, portIndex = 0):
+        self.socket.sendto(data, self.destination[portIndex])
 
     def receive(self):
         try:

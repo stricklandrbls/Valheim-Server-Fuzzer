@@ -3,7 +3,7 @@ from lib.packet import Packet
 import lib.constants as c
 import struct
 
-class Connect():
+class Connect:
 
     def initiate_connection():
         packet = Packet()
@@ -13,7 +13,16 @@ class Connect():
             packet.append(0x00)
         
         return packet.bytes
-
+    
+    def parse_connect_response(response):
+        # first 15 bytes need to be preppended to next message's
+        packet = Packet()
+        header = []
+        for char in response:
+            header.append(char)
+        for i in range(0, 15):
+            packet.append(header[i])
+        print(packet)
 class Query():
     def __init__(self, socket = None):
         self.echo = ""

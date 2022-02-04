@@ -19,14 +19,21 @@ class Packet():
             self.bytes = bytes(packet)
             self.length = len(self.bytes)
             self.bytes_format = "B" * self.length
-
+        elif type(packet) == str:
+            for i in range(0, len(packet) -1, 2):
+                self.package.append(int(packet[i] + packet[i+1], 16))
+            self.bytes = bytes(self.package)
+            self.length = len(self.bytes)
+            self.bytes_format = "B" * self.length
+            self.package = struct.unpack(self.bytes_format, self.bytes)
+                
     def __str__(self):
         
         _hex = []
         ascii = []
         output = ""
         for char in self.package:
-            if char > 17:
+            if char > 0x17 and char < 0x88:
                 ascii.append(chr(char))
             else:
                 ascii.append(".")
@@ -37,27 +44,24 @@ class Packet():
                 _hex.append("0" + value)
             else:
                 _hex.append(value)
-            
-
+        
+        print(f"Package({len(self.package)})\tRaw: {len(_hex)}")
 
         index = 0
         hex_index = 0
         for char in ascii:
-            # if len(str(char)) > 2:
-            #     output += char[3] + ' '
-            # else:
             output += str(char) + " "
 
             index += 1
-            if index == 5:
+            if index == 10:
                 output += "\t"
-                for i in range(hex_index, hex_index + 5):
+                for i in range(hex_index, hex_index + 10):
                     try:
                         output += _hex[i] + " "
                     except BoundaryError:
                         pass
                 output += "\n"
-                hex_index += 5
+                hex_index += 10
                 index = 0
         return output
 

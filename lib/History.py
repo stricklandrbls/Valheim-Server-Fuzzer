@@ -16,6 +16,11 @@ class History:
             self.list.append(data)
             self.data_type = type(data)
         
+    def last(self):
+        return self.list[-1]
+    def first(self):
+        return self.list[0]
+        
     def print_last(self):
         print(self.list[-1])
     def print_first(self):
