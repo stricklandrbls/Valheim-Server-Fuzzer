@@ -1,8 +1,16 @@
 
+session_id_server = bytearray([0xde, 0x78, 0x51, 0xc0])
+session_id_client = bytearray([0x0a, 0x0b, 0xd8, 0x72])
+
 def build_connect_package():
-  package = [0x20, 0x10, 0x00, 0x0d, 0x9e, 0x70, 0xe0, 0x15, 0x19, 0x24, 0x66, 0x1c, 0x82, 0xba, 0x02, 0x0, 0x0, 0x20, 0x0b]
+  c = bytearray([0x20])
+  c_filler = bytearray([0x10, 0x00, 0x0d])
+  package = c + c_filler + session_id_server
+  package += bytearray([0x19, 0x24, 0x66, 0x1c, 0x82, 0xba, 0x02, 0x0, 0x0, 0x20, 0x0b])
+
   while len(package) < 512:
-      package.append(0x0)
+      package += (bytearray([0x00]))
+  print(package.hex())
   return bytes(package)
 
 def build_steamid_package(header_msb=bytes, header_lsb=bytes):
@@ -15,7 +23,7 @@ def build_steamid_package(header_msb=bytes, header_lsb=bytes):
   return ret
 
 def capture_header(data=bytes):
-  lhs = data[1:7]
-  rhs = data[8:15]
+  lhs = data[1:8]
+  rhs = data[8:16]
   print("Header: [", lhs.hex(), "] [", rhs.hex(), "]")
   return lhs, rhs
